@@ -4735,7 +4735,7 @@ and the GLib main loop, to integrate well with GNOME applications.")
 (define-public libsecret
   (package
     (name "libsecret")
-    (version "0.20.3")
+    (version "0.20.4")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -4744,7 +4744,7 @@ and the GLib main loop, to integrate well with GNOME applications.")
                     "libsecret-" version ".tar.xz"))
               (sha256
                (base32
-                "1r4habxdzmn02id324m0m4mg5isf22q1z436bg3vjjmcz1b3rjsg"))))
+                "0a4xnfmraxchd9cq5ai66j12jv2vrgjmaaxz25kl031jvda4qnij"))))
     (build-system gnu-build-system)
     (outputs '("out" "doc"))
     (arguments
@@ -4770,6 +4770,8 @@ and the GLib main loop, to integrate well with GNOME applications.")
     (propagated-inputs
      `(("glib" ,glib))) ; required by libsecret-1.pc
     (inputs
+     ;; The ‘build’ phase complains about missing docbook-xml-4.2 but adding it
+     ;; doesn't seem to affect the build result.
      `(("docbook-xsl" ,docbook-xsl)
        ("libgcrypt" ,libgcrypt)
        ("libxml2" ,libxml2))) ; for XML_CATALOG_FILES
@@ -10127,14 +10129,14 @@ views can be printed as PDF or PostScript files, or exported to HTML.")
 (define-public lollypop
   (package
     (name "lollypop")
-    (version "1.2.32")
+    (version "1.4.2")
     (source
      (origin
        (method url-fetch)
        (uri (string-append "https://adishatz.org/lollypop/"
                            "lollypop-" version ".tar.xz"))
        (sha256
-        (base32 "1ng9492k8754vlqggbfsyzbmfdx4w17fzc4ad21fr92710na0w5a"))))
+        (base32 "1hfl68gkvqy5kxlmrsalz78mw1bs1yvqvy2rhg7pzgwiazsdvwzz"))))
     (build-system meson-build-system)
     (arguments
      `(#:imported-modules
@@ -10169,6 +10171,7 @@ views can be printed as PDF or PostScript files, or exported to HTML.")
        ("gst-plugins-base" ,gst-plugins-base)
        ("libnotify" ,libnotify)
        ("libsecret" ,libsecret)
+       ("libhandy" ,libhandy)
        ("libsoup" ,libsoup)
        ("python" ,python)
        ("python-beautifulsoup4" ,python-beautifulsoup4)

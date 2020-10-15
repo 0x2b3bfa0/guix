@@ -1455,6 +1455,8 @@ operate properly.")
        ("sdl" ,sdl2)
        ("soxr" ,soxr)
        ("speex" ,speex)
+       ;; FFmpeg is not yet compatible with SRT > 1.4.1.
+       ("srt" ,srt-1.4.1)
        ("twolame" ,twolame)
        ("vidstab" ,vidstab)
        ("x265" ,x265)
@@ -1539,6 +1541,7 @@ operate properly.")
                '())
          "--enable-libsoxr"
          "--enable-libspeex"
+         "--enable-libsrt"
          "--enable-libtheora"
          "--enable-libtwolame"
          "--enable-libvidstab"
@@ -1830,6 +1833,8 @@ videoformats depend on the configuration flags of ffmpeg.")
        ("sdl-image" ,sdl-image)
        ("speex" ,speex)
        ("speexdsp" ,speexdsp)
+       ;; VLC is not yet compatible with SRT > 1.4.1.
+       ("srt" ,srt-1.4.1)
        ("taglib" ,taglib)
        ("twolame" ,twolame)
        ("unzip" ,unzip)
@@ -3614,7 +3619,7 @@ practically any type of media.")
 (define-public libmediainfo
   (package
     (name "libmediainfo")
-    (version "20.08")
+    (version "20.09")
     (source (origin
               (method url-fetch)
               (uri (string-append "https://mediaarea.net/download/source/"
@@ -3622,7 +3627,7 @@ practically any type of media.")
                                   name "_" version ".tar.xz"))
               (sha256
                (base32
-                "19n8h9jq42b6r3dbag77fzwfksfywszmzpi636w87fvc1nqldlqj"))))
+                "15ni9pnch6688m72swwax109a7mg4a08yx75qknrx7qa6dbyhz6h"))))
     ;; TODO add a Big Buck Bunny webm for tests.
     (native-inputs
      `(("autoconf" ,autoconf)
@@ -3672,7 +3677,7 @@ MPEG-2, MPEG-4, DVD (VOB)...
 (define-public mediainfo
   (package
     (name "mediainfo")
-    (version "20.08")
+    (version "20.09")
     (source (origin
               (method url-fetch)
               ;; Warning: This source has proved unreliable 1 time at least.
@@ -3683,7 +3688,7 @@ MPEG-2, MPEG-4, DVD (VOB)...
                                   name "_" version ".tar.xz"))
               (sha256
                (base32
-                "1baf2dj5s3g1x4ssqli1b2r1203syk42m09zhp36qcinmfixv11l"))))
+                "0rqg9z7s5bk7vlvjrs4gackzg7ib05a0dffi2ihsjf5a7kw7wcir"))))
     (native-inputs
      `(("autoconf" ,autoconf)
        ("automake" ,automake)

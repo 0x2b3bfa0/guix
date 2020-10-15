@@ -936,16 +936,16 @@ replacement.")
 (define-public emacs-haskell-mode
   (package
     (name "emacs-haskell-mode")
-    (version "17.1")
+    (version "17.2")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/haskell/haskell-mode")
-             (commit (string-append "v" version))))
+             (commit version)))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "0izcasi2v02zh08c863h43m8mmsldzy8pck43cllrfn0zf24v2qn"))))
+        (base32 "0zxbacqzr84krmhqpvzndnvlcjh1gs1x20ys0dykgd7chyhci5j5"))))
     (propagated-inputs
      `(("emacs-dash" ,emacs-dash)))
     (native-inputs
@@ -1769,6 +1769,32 @@ also includes a pairing agent.")
 always indented.  It reindents after every change, making it more reliable
 than @code{electric-indent-mode}.")
     (license license:gpl2+)))
+
+(define-public emacs-gcmh
+  ;; No tagged release upstream.
+  (let ((commit "84c43a4c0b41a595ac6e299fa317d2831813e580")
+        (revision "0"))
+    (package
+      (name "emacs-gcmh")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://gitlab.com/koral/gcmh")
+               (commit commit)))
+         (sha256
+          (base32 "1r3wiqhrzh7wvqy484nl031fd4bn4cpvkv9646s4cjgvnnnv7jz3"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (home-page "https://gitlab.com/koral/gcmh")
+      (synopsis "Emacs Garbage Collector Magic Hack")
+      (description
+       "This package enforces a sneaky @dfn{garbage collector} (GC) strategy
+to minimize GC interference with the activity.  During normal use a high GC
+threshold is set.  When idling GC is immediately triggered and a low threshold
+is set.")
+      (license license:gpl3+))))
 
 (define-public emacs-ctrlf
   (package
@@ -5675,6 +5701,31 @@ and popup menus.")
 @code{python-black} and @code{python-black-macchiato} for entire and partial
 buffers, respectively.")
     (license license:bsd-3)))
+
+(define-public emacs-py-isort
+  (package
+    (name "emacs-py-isort")
+    (version "2016.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/paetzke/py-isort.el")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "08i55gv392wc12x8v3dca0dmz8a8p9ljsqhyajsb6qv1k120wqhx"))))
+    (build-system emacs-build-system)
+    (arguments
+     `(#:tests? #f))     ;tests fail with "emacs: standard input is not a tty"
+    (propagated-inputs
+     `(("python-isort" ,python-isort)))
+    (home-page "https://github.com/paetzke/py-isort.el")
+    (synopsis "Sort the imports in Python buffers")
+    (description
+     "This package provides commands and a minor mode to sort Python imports
+using @code{python-isort}.")
+    (license license:gpl3+)))
 
 (define-public emacs-python-environment
   (package

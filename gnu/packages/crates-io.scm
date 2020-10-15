@@ -853,7 +853,7 @@ that runs on Argon2.")
 (define-public rust-arrayref-0.3
   (package
     (name "rust-arrayref")
-    (version "0.3.5")
+    (version "0.3.6")
     (source
      (origin
        (method url-fetch)
@@ -862,11 +862,10 @@ that runs on Argon2.")
         (string-append name "-" version ".tar.gz"))
        (sha256
         (base32
-         "1vphy316jbgmgckk4z7m8csvlyc8hih9w95iyq48h8077xc2wf0d"))))
+         "0i6m1l3f73i0lf0cjdf5rh3xpvxydyhfbakq7xx7bkrp5qajgid4"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:skip-build? #t
-       #:cargo-development-inputs
+     `(#:cargo-development-inputs
        (("rust-quickcheck" ,rust-quickcheck-0.6))))
     (home-page "https://github.com/droundy/arrayref")
     (synopsis "Macros to take array references of slices")
@@ -2589,8 +2588,7 @@ Bresenham's line algorithm.")
      `(#:cargo-inputs
        (("rust-alloc-no-stdlib" ,rust-alloc-no-stdlib-2)
         ("rust-alloc-stdlib" ,rust-alloc-stdlib-0.2)
-        ("rust-brotli-decompressor"
-         ,rust-brotli-decompressor-2.3)
+        ("rust-brotli-decompressor" ,rust-brotli-decompressor-2)
         ("rust-packed-simd" ,rust-packed-simd-0.3)
         ("rust-sha2" ,rust-sha2-0.8))))
     (home-page "https://github.com/dropbox/rust-brotli")
@@ -2600,7 +2598,7 @@ with no dependency on the rust stdlib.  This makes it suitable for embedded
 devices and kernels.")
     (license (list license:bsd-3 license:expat))))
 
-(define-public rust-brotli-decompressor-2.3
+(define-public rust-brotli-decompressor-2
   (package
     (name "rust-brotli-decompressor")
     (version "2.3.1")
@@ -2614,7 +2612,8 @@ devices and kernels.")
          "1v7l1sa63ix1aq8h0k1ijvxvb5w796hz154b9aw0xn6lp31y2lhh"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:cargo-inputs
+     `(#:tests? #f      ; not all test files included
+       #:cargo-inputs
        (("rust-alloc-no-stdlib" ,rust-alloc-no-stdlib-2.0)
         ("rust-alloc-stdlib" ,rust-alloc-stdlib-0.2))))
     (home-page "https://github.com/dropbox/rust-brotli-decompressor")
@@ -9587,8 +9586,7 @@ library.")
          "037mb9ichariqi45xm6mz0b11pa92gj38ba0409z3iz239sns6y3"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:skip-build? #t
-       #:cargo-inputs
+     `(#:cargo-inputs
        (("rust-byteorder" ,rust-byteorder-1))
        #:cargo-development-inputs
        (("rust-fnv" ,rust-fnv-1)
@@ -9804,8 +9802,7 @@ API library @code{gdi32}.")
           "1mgb3qvivi26gs6ihqqhh8iyhp3vgxri6vwyrwg28w0xqzavznql"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:skip-build? #t
-       #:cargo-inputs
+     `(#:cargo-inputs
        (("rust-unicode-width" ,rust-unicode-width-0.1)
         ("rust-rustc-std-workspace-core" ,rust-rustc-std-workspace-core-1)
         ("rust-rustc-std-workspace-std" ,rust-rustc-std-workspace-std-1.0))
@@ -10194,7 +10191,7 @@ OpenGL's old and error-prone API.")
           "0x25wfr7vg3mzxc9x05dcphvd3nwlcmbnxrvwcvrrdwplcrrk4cv"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:skip-build? #t
+     `(#:tests? #f
        #:cargo-development-inputs
        (("rust-tempdir" ,rust-tempdir-0.3))))
     (home-page "https://github.com/rust-lang-nursery/glob")
@@ -27815,6 +27812,20 @@ bindings are a small wrapper around the raw C functions, which converts integer
 return values to @code{std::io::Result} to indicate success or failure.")
     (license license:expat)))
 
+(define-public rust-termios-0.2
+  (package
+    (inherit rust-termios-0.3)
+    (name "rust-termios")
+    (version "0.2.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (crate-uri "termios" version))
+       (file-name (string-append name "-" version ".tar.gz"))
+       (sha256
+        (base32
+         "0fk8nl0rmk43jrh6hjz6c6d83ri7l6fikag6lh0ffz3di9cwznfm"))))))
+
 (define-public rust-test-assembler-0.1
   (package
     (name "rust-test-assembler")
@@ -28874,7 +28885,9 @@ futures.")
          "16l8kx3j7i3jxq36qs3hnmys6cd2zqcixc1n0kf3kymwanr32a71"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:cargo-inputs
+     `(;; These tests require network access.
+       #:cargo-test-flags '("--release" "--" "--skip=tls12" "--skip=modern")
+       #:cargo-inputs
        (("rust-bytes" ,rust-bytes-0.5)
         ("rust-futures-core" ,rust-futures-core-0.3)
         ("rust-rustls" ,rust-rustls-0.18)
@@ -28905,7 +28918,9 @@ using Rustls.")
         (base32
          "1d2iy01v5psvm0ygcflzjna7zwgwk36w36bfr6mqf1vpsah65jqm"))))
     (arguments
-     `(#:cargo-inputs
+     `(;; These tests require network access.
+       #:cargo-test-flags '("--release" "--" "--skip=tls12" "--skip=modern")
+       #:cargo-inputs
        (("rust-bytes" ,rust-bytes-0.5)
         ("rust-futures-core" ,rust-futures-core-0.3)
         ("rust-rustls" ,rust-rustls-0.17)
@@ -29343,7 +29358,7 @@ Tokio.")
 (define-public rust-toml-0.5
   (package
     (name "rust-toml")
-    (version "0.5.6")
+    (version "0.5.7")
     (source
       (origin
         (method url-fetch)
@@ -29351,11 +29366,10 @@ Tokio.")
         (file-name (string-append name "-" version ".crate"))
         (sha256
          (base32
-          "06n7j8z63hj6g0kj2x6sqwxnm4q3s0q5d873bdk41vqy1cb2vjgz"))))
+          "0iannv6pb226h0q9vlqg7hdn36fs146yrahw016n107g1fxlbkvm"))))
     (build-system cargo-build-system)
     (arguments
-     `(#:skip-build? #t
-       #:cargo-inputs
+     `(#:cargo-inputs
         (("rust-indexmap" ,rust-indexmap-1)
          ("rust-serde" ,rust-serde-1))
         #:cargo-development-inputs
@@ -30368,15 +30382,15 @@ boundaries according to Unicode Standard Annex #29 rules.")
 (define-public rust-unicode-width-0.1
   (package
     (name "rust-unicode-width")
-    (version "0.1.7")
+    (version "0.1.8")
     (source
       (origin
         (method url-fetch)
         (uri (crate-uri "unicode-width" version))
-        (file-name (string-append name "-" version ".crate"))
+        (file-name (string-append name "-" version ".tar.gz"))
         (sha256
          (base32
-          "0yflmxkxmm89ckrb3sz58whn491aycrj8cxra0hzzlb72x9rvana"))))
+          "1qxizyi6xbcqyi4z79p523ywvmgsfcgfqb3zv3c8i6x1jcc5jdwk"))))
     (build-system cargo-build-system)
     (arguments
      `(#:cargo-inputs

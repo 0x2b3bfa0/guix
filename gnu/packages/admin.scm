@@ -443,7 +443,7 @@ graphs and can export its output to different formats.")
 (define-public facter
   (package
     (name "facter")
-    (version "4.0.42")
+    (version "4.0.43")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -452,7 +452,7 @@ graphs and can export its output to different formats.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1y1aisfy6m7syvw84035mqspgyml1qb8d8v5rl1pl6pd695y6si8"))))
+                "0ppzr7vsl6iw8x82c4g60mx1vz06nzwcy8byablhg0n0g6qa3pb0"))))
     (build-system ruby-build-system)
     (arguments
      `(#:phases
@@ -2585,14 +2585,14 @@ done with the @code{auditctl} utility.")
 (define-public nmap
   (package
     (name "nmap")
-    (version "7.90")
+    (version "7.91")
     (source (origin
               (method url-fetch)
               (uri (string-append "https://nmap.org/dist/nmap-" version
                                   ".tar.bz2"))
               (sha256
                (base32
-                "1s20i84m9bci70lrl0p2j7h3kpbi9snmvyhc3lzc9s3mh92w6msm"))
+                "001kb5xadqswyw966k2lqi6jr6zz605jpp9w4kmm272if184pk0q"))
               (modules '((guix build utils)))
               (snippet
                '(begin
@@ -2670,7 +2670,7 @@ advanced netcat implementation (ncat), a utility for comparing scan
 results (ndiff), and a packet generation and response analysis tool (nping).")
     ;; This package uses nmap's bundled versions of libdnet and liblinear, which
     ;; both use a 3-clause BSD license.
-    (license (list license:nmap license:bsd-3))))
+    (license (list license:npsl license:bsd-3))))
 
 (define-public dstat
   (package

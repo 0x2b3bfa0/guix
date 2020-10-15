@@ -3965,10 +3965,31 @@ mixers.")
 (define-public python2-pyalsaaudio
   (package-with-python2 python-pyalsaaudio))
 
+(define-public ldacbt
+  (package
+    (name "ldacbt")
+    (version "2.0.2.3")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "https://github.com/EHfive/ldacBT"
+                                  "/releases/download/v" version
+                                  "/ldacBT-" version ".tar.gz"))
+              (sha256
+               (base32
+                "1d65dms4klzql29abi15i90f41h523kl6mxrz9hi6p5vg37fxn2b"))))
+    (build-system cmake-build-system)
+    (arguments `(#:tests? #f)) ; no check target
+    (home-page "https://github.com/EHfive/ldacBT/")
+    (synopsis "LDAC Bluetooth encoder and ABR library")
+    (description "This package provides an encoder for the LDAC
+high-resolution Bluetooth audio streaming codec for streaming at up to 990
+kbps at 24 bit/96 kHz.")
+    (license license:asl2.0)))
+
 (define-public bluez-alsa
   (package
     (name "bluez-alsa")
-    (version "2.0.0")
+    (version "3.0.0")
     (source (origin
               ;; The tarballs are mere snapshots and don't contain a
               ;; bootstrapped build system.
@@ -3979,11 +4000,12 @@ mixers.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "08mppgnjf1j2733bk9yf0cny6rfxxwiys0s62lz2zd2lpdl6d9lz"))))
+                "1jlsgxyqfhncfhx1sy3ry0dp6p95kd4agh7g2b7g51h0c4cv74h8"))))
     (build-system gnu-build-system)
     (arguments
      `(#:configure-flags
-       (list (string-append "--with-alsaplugindir="
+       (list "--enable-ldac"
+             (string-append "--with-alsaplugindir="
                             (assoc-ref %outputs "out")
                             "/lib/alsa-lib")
              (string-append "--with-dbusconfdir="
@@ -3999,6 +4021,7 @@ mixers.")
        ("bluez" ,bluez)
        ("dbus" ,dbus)
        ("glib" ,glib)
+       ("ldacbt" ,ldacbt)
        ("libbsd" ,libbsd)
        ("ncurses" ,ncurses)
        ("ortp" ,ortp)
